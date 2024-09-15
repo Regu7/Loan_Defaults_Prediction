@@ -9,11 +9,9 @@ from src.components.data_transformation import (
     DataTransformation,
     DataTransformationConfig,
 )
+from src.components.model_trainer import ModelTrainer, ModelTrainerConfig
 from src.exception import CustomException
 from src.logger import logging
-
-from src.components.model_trainer import ModelTrainerConfig
-from src.components.model_trainer import ModelTrainer
 
 
 @dataclass
@@ -30,16 +28,22 @@ class DataIngestion:
     def initiate_data_ingestion(self):
         logging.info("Entered the data ingestion method or component")
         try:
-            df = pd.read_csv(r"data\accepeted_custom.csv")
-            logging.info("Read the dataset as dataframe")
-
+            logging.info(f"Current working dir : {os.getcwd()}")
+            logging.info(f"Read the dataset as dataframe")
+            df = pd.read_csv(
+                os.path.join(
+                    # os.path.dirname(os.path.abspath(__file__)),
+                    r"data\accepeted_custom.csv",
+                )
+            )
+            # df = pd.read_csv(r"data\accepeted_custom.csv")
             os.makedirs(
                 os.path.dirname(self.ingestion_config.train_data_path), exist_ok=True
             )
 
             df = df[df["loan_status"].isin(["Fully Paid", "Charged Off"])]
 
-            percentage = 0.2
+            percentage = 0.1
 
             # Sample the DataFrame
             df = df.sample(frac=percentage, random_state=42)
@@ -95,5 +99,5 @@ if __name__ == "__main__":
         train_data, test_data
     )
 
-    modeltrainer=ModelTrainer()
-    print(modeltrainer.initiate_model_trainer(train_arr,test_arr))
+    modeltrainer = ModelTrainer()
+    print(modeltrainer.initiate_model_trainer(train_arr, test_arr))

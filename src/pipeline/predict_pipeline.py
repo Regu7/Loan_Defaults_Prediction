@@ -1,7 +1,11 @@
+import os
 import sys
+
 import pandas as pd
+
 from src.exception import CustomException
 from src.utils import load_object
+
 
 
 class PredictPipeline:
@@ -10,6 +14,8 @@ class PredictPipeline:
 
     def predict(self, features):
         try:
+
+            features.term = features.term.map({" 36 months": 36, " 60 months": 60})
             model_path = os.path.join("artifacts", "model.pkl")
             preprocessor_path = os.path.join("artifacts", "preprocessor.pkl")
             print("Before Loading")
@@ -23,124 +29,9 @@ class PredictPipeline:
         except Exception as e:
             raise CustomException(e, sys)
 
-num = [
-    "term",
-    "grade",
-    "home_ownership",
-    "verification_status",
-    "purpose",
-    "initial_list_status",
-    "application_type",
-]
-
-cat = [
-    "loan_amnt",
-    "int_rate",
-    "installment",
-    "annual_inc",
-    "dti",
-    "open_acc",
-    "pub_rec",
-    "revol_bal",
-    "revol_util",
-    "total_acc",
-    "mort_acc",
-    "pub_rec_bankruptcies",
-]
-
 
 class CustomData:
-    def __init__(
-        self,
-        gender: str,
-        race_ethnicity: str,
-        parental_level_of_education,
-        lunch: str,
-        test_preparation_course: str,
-        reading_score: int,
-        writing_score: int,
-    ):
 
-        self.gender = gender
-
-        self.race_ethnicity = race_ethnicity
-
-        self.parental_level_of_education = parental_level_of_education
-
-        self.lunch = lunch
-
-        self.test_preparation_course = test_preparation_course
-
-        self.reading_score = reading_score
-
-        self.writing_score = writing_score
-
-    def get_data_as_data_frame(self):
-        try:
-            custom_data_input_dict = {
-                "gender": [self.gender],
-                "race_ethnicity": [self.race_ethnicity],
-                "parental_level_of_education": [self.parental_level_of_education],
-                "lunch": [self.lunch],
-                "test_preparation_course": [self.test_preparation_course],
-                "reading_score": [self.reading_score],
-                "writing_score": [self.writing_score],
-            }
-
-            return pd.DataFrame(custom_data_input_dict)
-
-        except Exception as e:
-            raise CustomException(e, sys)
-
-
-class CustomData:
-    def __init__(
-        self,
-        gender: str,
-        race_ethnicity: str,
-        parental_level_of_education,
-        lunch: str,
-        test_preparation_course: str,
-        reading_score: int,
-        writing_score: int,
-    ):
-
-        self.gender = gender
-
-        self.race_ethnicity = race_ethnicity
-
-        self.parental_level_of_education = parental_level_of_education
-
-        self.lunch = lunch
-
-        self.test_preparation_course = test_preparation_course
-
-        self.reading_score = reading_score
-
-        self.writing_score = writing_score
-
-    def get_data_as_data_frame(self):
-        try:
-            custom_data_input_dict = {
-                "gender": [self.gender],
-                "race_ethnicity": [self.race_ethnicity],
-                "parental_level_of_education": [self.parental_level_of_education],
-                "lunch": [self.lunch],
-                "test_preparation_course": [self.test_preparation_course],
-                "reading_score": [self.reading_score],
-                "writing_score": [self.writing_score],
-            }
-
-            return pd.DataFrame(custom_data_input_dict)
-
-        except Exception as e:
-            raise CustomException(e, sys)
-
-import pandas as pd
-import sys
-
-
-class CustomData:
     def __init__(
         self,
         term: int,
@@ -155,13 +46,13 @@ class CustomData:
         installment: float,
         annual_inc: float,
         dti: float,
-        open_acc: int,
-        pub_rec: int,
+        open_acc: float,
+        pub_rec: float,
         revol_bal: float,
         revol_util: float,
-        total_acc: int,
-        mort_acc: int,
-        pub_rec_bankruptcies: int,
+        total_acc: float,
+        mort_acc: float,
+        pub_rec_bankruptcies: float,
     ):
         self.term = term
         self.grade = grade

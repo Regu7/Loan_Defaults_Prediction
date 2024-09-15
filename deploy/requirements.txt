@@ -11,4 +11,5 @@ scipy
 matplotlib
 scikit-plot
 tensorflow
+streamlit
 -e .

@@ -78,6 +78,8 @@ class ModelTrainer:
                 param=params,
             )
 
+            logging.info("Model Training Completed")
+
             ## To get best model score from dict
             best_model_score = max(sorted(model_report.values()))
 

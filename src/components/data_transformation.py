@@ -7,7 +7,7 @@ import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.preprocessing import FunctionTransformer, OneHotEncoder, StandardScaler
 
 from src.exception import CustomException
 from src.logger import logging
@@ -30,15 +30,31 @@ class DataTransformation:
         """
         try:
 
+            # def map_term(df):
+            #     df['term'] = df['term'].map({" 36 months": 36, " 60 months": 60})
+            #     return df
+
+            # def transform_home_ownership(df):
+            #     df.loc[(df.home_ownership == "ANY") | (df.home_ownership == "NONE"), "home_ownership"] = "OTHER"
+            #     return df
+
+            # term_transformer = FunctionTransformer(map_term)
+            # home_ownership_transformer = FunctionTransformer(transform_home_ownership)
+
             num_cols_pipe = Pipeline(
-                steps=[("standarscaler", StandardScaler(with_mean=False))]
+                steps=[
+                    ("imputer", SimpleImputer(strategy="mean")),
+                    ("standarscaler", StandardScaler(with_mean=False)),
+                ]
             )
 
             cat_cols_pipe = Pipeline(
                 steps=[
-                    # 'imputer' : SimpleImputer(),
+                    # ("term_transformer", term_transformer),
+                    # ("home_ownership_transformer", home_ownership_transformer),
+                    ("imputer", SimpleImputer(strategy="most_frequent")),
                     ("ohe", OneHotEncoder()),
-                    ("standarscaler", StandardScaler(with_mean=False)),
+                    ("standard_scaler", StandardScaler(with_mean=False)),
                 ]
             )
 
@@ -84,6 +100,20 @@ class DataTransformation:
                 test_df[target_column_name] = test_df[target_column_name].map(
                     {"Fully Paid": 0, "Charged Off": 1}
                 )
+
+            train_df.term = train_df.term.map({" 36 months": 36, " 60 months": 60})
+            test_df.term = test_df.term.map({" 36 months": 36, " 60 months": 60})
+
+            train_df.loc[
+                (train_df.home_ownership == "ANY")
+                | (train_df.home_ownership == "NONE"),
+                "home_ownership",
+            ] = "OTHER"
+
+            test_df.loc[
+                (test_df.home_ownership == "ANY") | (test_df.home_ownership == "NONE"),
+                "home_ownership",
+            ] = "OTHER"
 
             numerical_cols = train_df.select_dtypes(
                 include=["int", "float"]
