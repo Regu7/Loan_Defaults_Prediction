@@ -60,7 +60,7 @@ class ModelTrainer:
                 #     "gamma": [0, 0.1, 0.2],
                 # },
                 "xgboost": {
-                    "n_estimators": [100],
+                   # "n_estimators": [100],
                     # "learning_rate": [0.01],
                     # "max_depth": [3, 6, 9],
                     # "subsample": [0.6, 0.8, 1.0],

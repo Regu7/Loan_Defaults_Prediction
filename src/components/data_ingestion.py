@@ -43,10 +43,10 @@ class DataIngestion:
 
             df = df[df["loan_status"].isin(["Fully Paid", "Charged Off"])]
 
-            percentage = 0.1
+            # percentage = 1
 
-            # Sample the DataFrame
-            df = df.sample(frac=percentage, random_state=42)
+            # # Sample the DataFrame
+            # df = df.sample(frac=percentage, random_state=42)
 
             logging.info("Data sampled and took only {percentage} rows")
 

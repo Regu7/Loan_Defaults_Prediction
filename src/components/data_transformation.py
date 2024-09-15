@@ -53,7 +53,7 @@ class DataTransformation:
                     # ("term_transformer", term_transformer),
                     # ("home_ownership_transformer", home_ownership_transformer),
                     ("imputer", SimpleImputer(strategy="most_frequent")),
-                    ("ohe", OneHotEncoder()),
+                    ("ohe", OneHotEncoder(handle_unknown="ignore")),
                     ("standard_scaler", StandardScaler(with_mean=False)),
                 ]
             )

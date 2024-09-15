@@ -1,14 +1,13 @@
+import logging
 import os
+import pickle
 import sys
 
 import numpy as np
 import pandas as pd
-import dill
-import pickle
-from sklearn.metrics import r2_score
+from sklearn.metrics import r2_score, roc_auc_score
 from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import roc_auc_score
-import logging
+
 from src.exception import CustomException
 
 
@@ -33,7 +32,7 @@ def evaluate_models(X_train, y_train, X_test, y_test, models, param):
             model = list(models.values())[i]
             para = param[list(models.keys())[i]]
 
-            logging.info('Hyperparameter Tuning has started')
+            logging.info("Hyperparameter Tuning has started")
             gs = GridSearchCV(model, para, cv=3)
             gs.fit(X_train, y_train)
 
