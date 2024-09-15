@@ -11,5 +11,4 @@ scipy
 matplotlib
 scikit-plot
 tensorflow
-catboost
 -e .
