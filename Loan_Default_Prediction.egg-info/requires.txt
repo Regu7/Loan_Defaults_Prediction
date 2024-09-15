@@ -1,0 +1,14 @@
+pandas
+datetime
+plotly
+numpy
+xgboost
+scikit-learn
+mlflow
+hvplot
+seaborn
+scipy
+matplotlib
+scikit-plot
+tensorflow
+catboost
